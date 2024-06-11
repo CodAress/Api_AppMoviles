@@ -25,6 +25,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         existCategoryById(category_id);
         Product product = productRepository.findById(productId).get();
         Category category = categoryRepository.findById(category_id).get();
+        existCategoryInProduct(category, product);
         product.getCategories().add(category);
         return productRepository.save(product);
     }
@@ -35,6 +36,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         existCategoryById(category_id);
         Product product = productRepository.findById(product_id).get();
         Category category = categoryRepository.findById(category_id).get();
+        dontExistCategoryInProduct(category, product);
         product.getCategories().remove(category);
         return productRepository.save(product);
     }
@@ -43,6 +45,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public Product quitAllCategories(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        dontExistsCategoriesInProduct(product);
         product.getCategories().clear();
         return productRepository.save(product);
     }
@@ -51,6 +54,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public Set<Category> getAllCategoriesToProductById(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        dontExistsCategoriesInProduct(product);
         return product.getCategories();
     }
 
@@ -58,6 +62,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public Set<Product> getAllProductsToCategoryById(Long category_id) {
         existCategoryById(category_id);
         Category category = categoryRepository.findById(category_id).get();
+        dontExistsProductsInCategory(category);
         return category.getProducts();
     }
 
@@ -70,6 +75,27 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     private void existCategoryById(Long categoryId){
         if(!categoryRepository.existsById(categoryId)){
             throw new ResourceNotFoundException(String.format("Category with id %s not found", categoryId));
+        }
+    }
+
+    private void existCategoryInProduct(Category category, Product product){
+        if(product.getCategories().contains(category)){
+            throw new ResourceNotFoundException(String.format("Category with id %s already exists in product with id %s", category.getId(), product.getId()));
+        }
+    }
+    private void dontExistCategoryInProduct(Category category, Product product){
+        if(!product.getCategories().contains(category)){
+            throw new ResourceNotFoundException(String.format("Category with id %s not exists in product with id %s", category.getId(), product.getId()));
+        }
+    }
+    private void dontExistsCategoriesInProduct(Product product){
+        if(product.getCategories().isEmpty()){
+            throw new ResourceNotFoundException(String.format("Product with id %s not have categories", product.getId()));
+        }
+    }
+    private void dontExistsProductsInCategory(Category category){
+        if(category.getProducts().isEmpty()){
+            throw new ResourceNotFoundException(String.format("Category with id %s not have products", category.getId()));
         }
     }
 }

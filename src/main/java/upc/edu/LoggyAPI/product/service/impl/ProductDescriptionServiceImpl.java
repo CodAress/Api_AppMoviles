@@ -25,6 +25,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
         existDescriptionById(description_id);
         Product product = productRepository.findById(productId).get();
         Description description = descriptionRepository.findById(description_id).get();
+        existDescriptionInProduct(description, product);
         product.getDescriptions().add(description);
         return productRepository.save(product);
     }
@@ -35,6 +36,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
         existDescriptionById(description_id);
         Product product = productRepository.findById(product_id).get();
         Description description = descriptionRepository.findById(description_id).get();
+        dontExistDescriptionInProduct(description, product);
         product.getDescriptions().remove(description);
         return productRepository.save(product);
     }
@@ -43,6 +45,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
     public Product quitAllDescriptions(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        dontExistsDescriptionsInProduct(product);
         product.getDescriptions().clear();
         return productRepository.save(product);
     }
@@ -51,6 +54,7 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
     public Set<Description> getAllDescriptionsToProductById(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        dontExistsDescriptionsInProduct(product);
         return product.getDescriptions();
     }
 
@@ -62,6 +66,21 @@ public class ProductDescriptionServiceImpl implements ProductDescriptionService 
     private void existDescriptionById(Long description_id){
         if(!descriptionRepository.existsById(description_id)){
             throw new ResourceNotFoundException(String.format("Description with id %s not found", description_id));
+        }
+    }
+    private void existDescriptionInProduct(Description description, Product product){
+        if(product.getDescriptions().contains(description)){
+            throw new ResourceNotFoundException(String.format("Description with id %s already exists in product with id %s", description.getId(), product.getId()));
+        }
+    }
+    private void dontExistDescriptionInProduct(Description description, Product product){
+        if(!product.getDescriptions().contains(description)){
+            throw new ResourceNotFoundException(String.format("Description with id %s not exists in product with id %s", description.getId(), product.getId()));
+        }
+    }
+    private void dontExistsDescriptionsInProduct(Product product){
+        if(product.getDescriptions().isEmpty()){
+            throw new ResourceNotFoundException(String.format("Product with id %s not have descriptions", product.getId()));
         }
     }
 }

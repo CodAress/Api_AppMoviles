@@ -51,4 +51,12 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "measurement_id")
     )
     private Set<Measurement> measurements;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_specification",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "specification_id")
+    )
+    private Set<Specification> specifications;
 }

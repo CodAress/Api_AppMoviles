@@ -42,6 +42,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getProductsByBrand(Long brand_id) {
+        existBrandById(brand_id);
+        List<Product> products = productRepository.findByBrand(brandRepository.findById(brand_id).get());
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException("Unregistered products for this brand");
+        }
+        return products;
+    }
+
+    @Override
     public Product updateProduct(Long id, Product product) {
         existProductById(id);
         validateProduct(product);

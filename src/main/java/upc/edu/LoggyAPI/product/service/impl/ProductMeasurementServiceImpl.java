@@ -28,6 +28,7 @@ public class ProductMeasurementServiceImpl implements ProductMeasurementService 
         existMeasurementById(measurement_id);
         Measurement measurement = measurementRepository.findById(measurement_id).get();
         Product product = productRepository.findById(product_id).get();
+        existMeasurementInProduct(measurement, product);
         product.getMeasurements().add(measurement);
         return productRepository.save(product);
     }
@@ -38,6 +39,7 @@ public class ProductMeasurementServiceImpl implements ProductMeasurementService 
         existProductById(product_id);
         Measurement measurement = measurementRepository.findById(measurement_id).get();
         Product product = productRepository.findById(product_id).get();
+        dontExistMeasurementInProduct(measurement, product);
         product.getMeasurements().remove(measurement);
         return productRepository.save(product);
     }
@@ -46,6 +48,7 @@ public class ProductMeasurementServiceImpl implements ProductMeasurementService 
     public Product quitAllMeasurements(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        dontExistsMeasurementsInProduct(product);
         product.getMeasurements().clear();
         return productRepository.save(product);
     }
@@ -54,6 +57,7 @@ public class ProductMeasurementServiceImpl implements ProductMeasurementService 
     public Set<Measurement> getAllMeasurementsToProductById(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        dontExistsMeasurementsInProduct(product);
         return product.getMeasurements();
     }
     private void existProductById(Long product_id){
@@ -64,6 +68,21 @@ public class ProductMeasurementServiceImpl implements ProductMeasurementService 
     private void existMeasurementById(Long measurement_id){
         if(measurementRepository.existsById(measurement_id)){
             throw new ResourceNotFoundException(String.format("Measurement by id %s not found", measurement_id));
+        }
+    }
+    private void existMeasurementInProduct(Measurement measurement, Product product){
+        if(product.getMeasurements().contains(measurement)){
+            throw new ResourceNotFoundException(String.format("Measurement by id %s already exists in product by id %s", measurement.getId(), product.getId()));
+        }
+    }
+    private void dontExistMeasurementInProduct(Measurement measurement, Product product){
+        if(!product.getMeasurements().contains(measurement)){
+            throw new ResourceNotFoundException(String.format("Measurement by id %s not exists in product by id %s", measurement.getId(), product.getId()));
+        }
+    }
+    private void dontExistsMeasurementsInProduct(Product product){
+        if(product.getMeasurements().isEmpty()){
+            throw new ResourceNotFoundException(String.format("Product by id %s not have measurements", product.getId()));
         }
     }
 }
