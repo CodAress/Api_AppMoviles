@@ -6,5 +6,5 @@ import lombok.Data;
 public class SpecificationResponse {
     private Long id;
     private String name;
-    private String value;
+    private String type;
 }

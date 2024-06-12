@@ -27,6 +27,7 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
         Product product = productRepository.findById(product_id).get();
         existSpecificationInProduct(specification, product);
         product.getSpecifications().add(specification);
+        System.out.println(product.getSpecifications());
         return productRepository.save(product);
     }
 
@@ -59,13 +60,13 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
     }
 
     private void existProductById(Long product_id){
-        if(productRepository.existsById(product_id)){
+        if(!productRepository.existsById(product_id)){
             throw new ResourceNotFoundException(String.format("Product with id %s not found", product_id));
         }
     }
 
     private void existSpecificationById(Long specification_id){
-        if(specificationRepository.existsById(specification_id)){
+        if(!specificationRepository.existsById(specification_id)){
             throw new ResourceNotFoundException(String.format("Specification with id %s not found", specification_id));
         }
     }

@@ -12,6 +12,8 @@ public class ProductResponse {
     private String codename;
     private String image;
     private BrandResponse brand;
-    private List<DescriptionResponse> descriptions;
     private List<CategoryResponse> categories;
+    private List<DescriptionResponse> descriptions;
+    private List<SpecificationResponse> specifications;
+    private List<MeasurementResponse> measurements;
 }

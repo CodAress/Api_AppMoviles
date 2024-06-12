@@ -6,5 +6,4 @@ import lombok.Data;
 public class ProductRequest {
     private String codename;
     private String image;
-    private Long brandId;
 }
