@@ -1,5 +1,6 @@
 package upc.edu.LoggyAPI.product.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upc.edu.LoggyAPI.product.model.Product;
@@ -20,6 +21,7 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
     private SpecificationRepository specificationRepository;
 
     @Override
+    @Transactional
     public Product addSpecificationToProductById(Long product_id, Long specification_id) {
         existProductById(product_id);
         existSpecificationById(specification_id);
@@ -27,7 +29,6 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
         Product product = productRepository.findById(product_id).get();
         existSpecificationInProduct(specification, product);
         product.getSpecifications().add(specification);
-        System.out.println(product.getSpecifications());
         return productRepository.save(product);
     }
 
@@ -43,6 +44,7 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
     }
 
     @Override
+    @Transactional
     public Product quitAllSpecifications(Long product_id) {
         existSpecificationById(product_id);
         Product product = productRepository.findById(product_id).get();
@@ -52,9 +54,11 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
     }
 
     @Override
+    @Transactional
     public Set<Specification> getAllSpecificationsToProductById(Long product_id) {
         existProductById(product_id);
         Product product = productRepository.findById(product_id).get();
+        System.out.println(product);
         dontExistsSpecificationsInProduct(product);
         return product.getSpecifications();
     }

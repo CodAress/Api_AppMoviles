@@ -1,11 +1,15 @@
 package upc.edu.LoggyAPI.order.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import upc.edu.LoggyAPI.line.model.Line;
+import upc.edu.LoggyAPI.order_state.model.OrderState;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -27,4 +31,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "order_line_id")
     private Line line;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    List<OrderState> orderStates;
 }

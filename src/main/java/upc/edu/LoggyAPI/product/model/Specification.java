@@ -1,5 +1,6 @@
 package upc.edu.LoggyAPI.product.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,10 @@ public class Specification {
     @Column(name = "specification_name", nullable = false)
     private String name;
 
+    /*
+    @JsonBackReference
     @ManyToMany(mappedBy = "specifications")
     private Set<Product> products;
+
+     */
 }

@@ -60,13 +60,13 @@ public class ProductMeasurementServiceImpl implements ProductMeasurementService 
         dontExistsMeasurementsInProduct(product);
         return product.getMeasurements();
     }
-    private void existProductById(Long product_id){
-        if(productRepository.existsById(product_id)){
+    private void    existProductById(Long product_id){
+        if(!productRepository.existsById(product_id)){
             throw new ResourceNotFoundException(String.format("Product by id %s not found", product_id));
         }
     }
     private void existMeasurementById(Long measurement_id){
-        if(measurementRepository.existsById(measurement_id)){
+        if(!measurementRepository.existsById(measurement_id)){
             throw new ResourceNotFoundException(String.format("Measurement by id %s not found", measurement_id));
         }
     }

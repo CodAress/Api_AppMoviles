@@ -6,5 +6,5 @@ import lombok.Data;
 public class DescriptionResponse {
     private Long id;
     private String title;
-    private String description;
+    private String text;
 }

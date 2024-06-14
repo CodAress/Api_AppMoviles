@@ -22,7 +22,9 @@ public class Category {
     private String name;
     @Column(name = "category_description", nullable = false)
     private String description;
-
+/*
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products;
+
+ */
 }

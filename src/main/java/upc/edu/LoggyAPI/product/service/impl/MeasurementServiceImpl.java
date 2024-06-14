@@ -68,7 +68,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     private void existMeasurementByName(Measurement measurement){
-        if(!measurementRepository.existsByNameIgnoreCase(measurement.getName())){
+        if(measurementRepository.existsByNameIgnoreCase(measurement.getName())){
             throw new ResourceNotFoundException(String.format("Measurement with name %s not found", measurement.getName()));
         }
     }

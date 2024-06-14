@@ -22,8 +22,8 @@ public class Measurement {
     private String name;
     @Column(name = "measurement_quatity", nullable = false, precision = 2)
     private Double quantity;
-
+    /*
     @ManyToMany(mappedBy = "measurements")
     private Set<Product> products;
-
+    */
 }

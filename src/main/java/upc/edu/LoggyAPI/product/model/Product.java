@@ -1,5 +1,6 @@
 package upc.edu.LoggyAPI.product.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,33 +31,58 @@ public class Product {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "product_descriptions",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "description_id")
+            name = "product_description",
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "description_id",
+                    referencedColumnName = "id"
+            )
     )
     private Set<Description> descriptions;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "product_category",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "category_id",
+                    referencedColumnName = "id"
+            )
     )
     private Set<Category> categories;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "product_measurement",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "measurement_id")
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "measurement_id",
+                    referencedColumnName = "id"
+            )
     )
     private Set<Measurement> measurements;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "product_specification",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "specification_id")
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "specification_id",
+                    referencedColumnName = "id"
+            )
     )
+
     private Set<Specification> specifications;
 }

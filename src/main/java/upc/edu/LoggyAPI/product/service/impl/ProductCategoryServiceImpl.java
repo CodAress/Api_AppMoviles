@@ -62,8 +62,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public Set<Product> getAllProductsToCategoryById(Long category_id) {
         existCategoryById(category_id);
         Category category = categoryRepository.findById(category_id).get();
-        dontExistsProductsInCategory(category);
-        return category.getProducts();
+        Set<Product> products = productRepository.findByCategoriesContains(category);
+        if(products.isEmpty()){
+            throw new ResourceNotFoundException(String.format("Category with id %s not have products", category.getId()));
+        }
+        return products;
     }
 
     private void existProductById(Long productId){
@@ -93,9 +96,12 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             throw new ResourceNotFoundException(String.format("Product with id %s not have categories", product.getId()));
         }
     }
+    /*
     private void dontExistsProductsInCategory(Category category){
         if(category.getProducts().isEmpty()){
             throw new ResourceNotFoundException(String.format("Category with id %s not have products", category.getId()));
         }
     }
+
+     */
 }

@@ -1,5 +1,6 @@
 package upc.edu.LoggyAPI.product.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upc.edu.LoggyAPI.product.model.Specification;
@@ -15,6 +16,7 @@ public class SpecificationServiceImpl implements SpecificationService {
     private SpecificationRepository specificationRepository;
 
     @Override
+    @Transactional
     public Specification createSpecification(Specification specification) {
         validateSpecification(specification);
         existSpecificationByName(specification);
@@ -22,6 +24,7 @@ public class SpecificationServiceImpl implements SpecificationService {
     }
 
     @Override
+    @Transactional
     public Specification updateSpecification(Long id, Specification specification) {
         existSpecificationById(id);
         validateSpecification(specification);
@@ -32,6 +35,7 @@ public class SpecificationServiceImpl implements SpecificationService {
     }
 
     @Override
+    @Transactional
     public Boolean deleteSpecification(Long id) {
         existSpecificationById(id);
         specificationRepository.deleteById(id);
@@ -39,12 +43,14 @@ public class SpecificationServiceImpl implements SpecificationService {
     }
 
     @Override
+    @Transactional
     public Specification getSpecificationById(Long id) {
         existSpecificationById(id);
         return specificationRepository.findById(id).get();
     }
 
     @Override
+    @Transactional
     public List<Specification> getAllSpecifications() {
         List<Specification> specifications = specificationRepository.findAll();
         if (specifications.isEmpty()) {

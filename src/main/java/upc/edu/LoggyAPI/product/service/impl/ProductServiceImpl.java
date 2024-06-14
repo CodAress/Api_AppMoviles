@@ -1,5 +1,6 @@
 package upc.edu.LoggyAPI.product.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upc.edu.LoggyAPI.brand.repository.BrandRepository;
@@ -18,6 +19,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BrandRepository brandRepository;
     @Override
+    @Transactional
     public Product createProduct(Long brand_id,Product product) {
         existBrandById(brand_id);
         validateProduct(product);
@@ -27,12 +29,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product getProductById(Long id) {
         existProductById(id);
         return productRepository.findById(id).get();
     }
 
     @Override
+    @Transactional
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
         if (products.isEmpty()) {
@@ -42,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public List<Product> getProductsByBrand(Long brand_id) {
         existBrandById(brand_id);
         List<Product> products = productRepository.findByBrand(brandRepository.findById(brand_id).get());
@@ -52,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Long id, Product product) {
         existProductById(id);
         validateProduct(product);
@@ -62,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public boolean deleteProduct(Long id) {
         existProductById(id);
         productRepository.deleteById(id);

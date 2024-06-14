@@ -1,12 +1,12 @@
 package upc.edu.LoggyAPI.order_state.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import upc.edu.LoggyAPI.order.model.Order;
-import upc.edu.LoggyAPI.product.model.Product;
 
 @Data
 @Builder
@@ -14,17 +14,14 @@ import upc.edu.LoggyAPI.product.model.Product;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_states")
-@IdClass(OrderStateId.class)
-public class OrderState {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+public class OrderState{
+    @EmbeddedId
+    private OrderStatePK id;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    @MapsId("orderId")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "batch_id")

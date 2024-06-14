@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class DescriptionRequest {
     private String title;
-    private String description;
+    private String text;
 }

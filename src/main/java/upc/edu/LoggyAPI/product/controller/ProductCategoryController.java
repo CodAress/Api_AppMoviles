@@ -59,7 +59,7 @@ public class ProductCategoryController {
         return new ResponseEntity<List<CategoryResponse>>(categoriesResponse, HttpStatus.OK);
     }
 
-    @Operation(summary = "Obtiene todas las categorías de un producto por ID", description = "Este endpoint devuelve los detalles de todas las categorías de un producto por su id.")
+    @Operation(summary = "Obtiene todas los productos de una categoria por ID", description = "Este endpoint devuelve los detalles de todos los productos pertenecientes a una categoria por su id.")
     @Transactional
     @GetMapping("/categories/{categoryId}/products")
     public ResponseEntity<List<ProductResponse>> getAllProductsToCategoryById(@PathVariable("categoryId") Long categoryId){
